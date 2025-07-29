@@ -2,7 +2,9 @@ import express, {Request, Response, NextFunction} from 'express'
 import 'express-async-errors';
 import {router} from './routes'
 import cors from 'cors';
+import 'dotenv/config';
 
+console.log("JWT_SECRET:", process.env.JWT_SECRET);
 
 const app = express();
 app.use(express.json())
