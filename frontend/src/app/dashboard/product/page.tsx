@@ -12,6 +12,8 @@ export default async function Product(){
             Authorization: `Bearer ${token}`
         }
     })
+
+    console.log(response.data)
     
     return(
         <Form categories={response.data}/>

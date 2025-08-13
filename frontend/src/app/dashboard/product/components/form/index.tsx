@@ -7,6 +7,8 @@ import Image from 'next/image'
 import {Button} from '@/app/dashboard/components/button'
 import {api} from '@/services/api'
 import {getCookieClient} from '@/lib/cookieCliente'
+import {toast} from 'sonner'
+import { useRouter } from 'next/navigation'
 
 interface CategoryProps{
     id: string;
@@ -19,6 +21,7 @@ interface Props{
 
 
 export function Form({categories}: Props){
+    const router = useRouter();
     const [image, setImage] = useState<File>()
     const [previewImage, setPreviewImage] = useState("")
 
@@ -31,6 +34,7 @@ export function Form({categories}: Props){
         const description = formData.get("description")
 
         if(!name || !category || !price || !description || !image){
+            toast.warning("Preencha todos os campos!")
             return;
         }
 
@@ -51,7 +55,11 @@ export function Form({categories}: Props){
         })
         .catch((err)=> {
             console.log(err);
+            toast.warning("falha ao cadastrar esse produto")
+            return;
         })
+        toast.success("Produto registrado com sucesso!")
+        router.push("/dashboard")
     }
 
 
@@ -60,7 +68,7 @@ export function Form({categories}: Props){
             const image = e.target.files[0];
 
             if(image.type !== "image/jpeg" && image.type !== "image/png"){
-                console.log("formato proibido")
+                toast.warning("formato proibido")
                 return;
             }
 
